@@ -1,0 +1,16 @@
+version: "3"
+services:
+  pgha-proxy:
+    image: haproxy
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    volumes:
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+  pgha1:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: example
+    restart: unless-stopped
+    volumes:
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
